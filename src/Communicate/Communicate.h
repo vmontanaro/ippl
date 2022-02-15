@@ -27,6 +27,7 @@
 #include "Communicate/Archive.h"
 #include "Communicate/Tags.h"
 #include "Communicate/TagMaker.h"
+#include "Utility/Inform.h"
 
 namespace ippl {
     /*!
@@ -163,16 +164,16 @@ namespace ippl {
         // Temporary fix. MPI communication seems to have problems when the
         // count argument exceeds the range of int, so large messages should
         // be split into smaller messages
+    	//Inform msg("Recv",INFORM_ALL_NODES);
         if (msize > INT_MAX) {
             std::cerr << "Message size exceeds range of int" << std::endl;
             std::abort();
         }
+	//msg << "Recv Msg size: " << msize << " from rank " << src << " with tag " << tag << endl;
         MPI_Status status;
 	//archive_type artemp(msize);
         MPI_Recv(ar.getBuffer(), msize,
                 MPI_BYTE, src, tag, comm_m, &status);
-        //MPI_Recv(artemp.getBuffer(), msize,
-        //        MPI_BYTE, src, tag, comm_m, &status);
 
         buffer.deserialize(ar, nrecvs);
     }
@@ -181,12 +182,14 @@ namespace ippl {
     void Communicate::isend(int dest, int tag, Buffer& buffer,
                             archive_type& ar, MPI_Request& request, size_type nsends)
     {
-        if (ar.getSize() > INT_MAX) {
+        
+    	//Inform msg("Send",INFORM_ALL_NODES);
+        buffer.serialize(ar, nsends);
+	if (ar.getSize() > INT_MAX) {
             std::cerr << "Message size exceeds range of int" << std::endl;
             std::abort();
         }
-	//archive_type artemp(ar.getSize());
-        buffer.serialize(ar, nsends);
+	//msg << "Send Msg size: " << ar.getSize() << " to rank " << dest << " with tag " << tag << endl;
         MPI_Isend(ar.getBuffer(), ar.getSize(),
                   MPI_BYTE, dest, tag, comm_m, &request);
     }

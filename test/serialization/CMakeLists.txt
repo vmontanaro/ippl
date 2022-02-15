@@ -20,7 +20,19 @@ target_link_libraries (
     ${MPI_CXX_LIBRARIES}
 )
 
+add_executable (sendRecv sendRecv.cpp)
+target_link_libraries (
+    sendRecv
+    ${IPPL_LIBS}
+    ${MPI_CXX_LIBRARIES}
+)
 
+add_executable (sendRecvIPPL sendRecvIPPL.cpp)
+target_link_libraries (
+    sendRecvIPPL
+    ${IPPL_LIBS}
+    ${MPI_CXX_LIBRARIES}
+)
 # vi: set et ts=4 sw=4 sts=4:
 
 # Local Variables:
