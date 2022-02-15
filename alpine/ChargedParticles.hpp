@@ -303,7 +303,7 @@ public:
 
     }
 
-    void scatterCIC(size_type totalP, unsigned int iteration, Vector_t& hrField) {
+    void scatterCIC(size_type /*totalP*/, unsigned int /*iteration*/, Vector_t& hrField) {
 
 
          Inform m("scatter ");
@@ -324,21 +324,20 @@ public:
          double rel_error = std::fabs((Q_m-Q_grid)/Q_m);
          m << "Rel. error in charge conservation = " << rel_error << endl;
 
-         if(Ippl::Comm->rank() == 0) {
-             if(Total_particles != totalP || rel_error > 1e-10) {
-                 m << "Time step: " << iteration << endl;
-                 m << "Total particles in the sim. " << totalP
-                   << " " << "after update: "
-                   << Total_particles << endl;
-                 m << "Rel. error in charge conservation: "
-                   << rel_error << endl;
-                 std::abort();
-             }
-         }
+         //if(Ippl::Comm->rank() == 0) {
+         //    if(Total_particles != totalP || rel_error > 1e-10) {
+         //        m << "Time step: " << iteration << endl;
+         //        m << "Total particles in the sim. " << totalP
+         //          << " " << "after update: "
+         //          << Total_particles << endl;
+         //        m << "Rel. error in charge conservation: "
+         //          << rel_error << endl;
+         //        std::abort();
+         //    }
+         //}
 
          rho_m = rho_m / (hrField[0] * hrField[1] * hrField[2]);
 
-         rhoNorm_m = norm(rho_m);
          IpplTimings::stopTimer(sumTimer);
 
          //dumpVTK(rho_m,nr_m[0],nr_m[1],nr_m[2],iteration,hrField[0],hrField[1],hrField[2]);

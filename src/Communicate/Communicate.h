@@ -168,8 +168,11 @@ namespace ippl {
             std::abort();
         }
         MPI_Status status;
+	//archive_type artemp(msize);
         MPI_Recv(ar.getBuffer(), msize,
                 MPI_BYTE, src, tag, comm_m, &status);
+        //MPI_Recv(artemp.getBuffer(), msize,
+        //        MPI_BYTE, src, tag, comm_m, &status);
 
         buffer.deserialize(ar, nrecvs);
     }
@@ -182,6 +185,7 @@ namespace ippl {
             std::cerr << "Message size exceeds range of int" << std::endl;
             std::abort();
         }
+	//archive_type artemp(ar.getSize());
         buffer.serialize(ar, nsends);
         MPI_Isend(ar.getBuffer(), ar.getSize(),
                   MPI_BYTE, dest, tag, comm_m, &request);

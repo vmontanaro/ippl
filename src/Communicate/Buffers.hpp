@@ -47,7 +47,7 @@ namespace ippl {
                 buffer_type buf = buffers_m[id];
                 if (buf->getBufferSize() < size) {
                     buf->reallocBuffer(size);
-                }
+		}
                 return buf;
             }
             buffers_m[id] = std::make_shared<archive_type>((size_type)(size *
