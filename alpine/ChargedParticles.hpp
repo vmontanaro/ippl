@@ -148,6 +148,8 @@ public:
 
     std::string stype_m;
 
+    std::string datafolder_m;
+
     std::shared_ptr<Solver_t> solver_mp;
 
     double time_m;
@@ -274,7 +276,8 @@ public:
     
         if (Ippl::Comm->rank() == 0) {
             std::stringstream fname;
-            fname << "data/LoadBalance_";
+            fname << datafolder_m;
+            fname << "/data/LoadBalance_";
             fname << Ippl::Comm->size();
             fname << ".csv";
 
@@ -487,7 +490,8 @@ public:
 
         if (Ippl::Comm->rank() == 0) {
             std::stringstream fname;
-            fname << "data/FieldLandau_";
+            fname << datafolder_m;
+            fname << "/data/FieldLandau_";
             fname << Ippl::Comm->size();
             fname << ".csv";
 

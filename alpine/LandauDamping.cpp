@@ -230,6 +230,7 @@ int main(int argc, char *argv[]){
     P->initSolver();
     P->time_m = 0.0;
     P->loadbalancethreshold_m = std::atof(argv[7]);
+    P->datafolder_m = argv[9];
 
     bool isFirstRepartition;
 
@@ -398,7 +399,8 @@ int main(int argc, char *argv[]){
     msg << "LandauDamping: End." << endl;
     IpplTimings::stopTimer(mainTimer);
     IpplTimings::print();
-    IpplTimings::print(std::string("timing.dat"));
+    //IpplTimings::print(std::string("timing.dat"));
+    IpplTimings::print(P->datafolder_m.append(std::string("/timing.dat")));
     auto end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> time_chrono = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
