@@ -404,7 +404,7 @@ int main(int argc, char *argv[]){
     auto end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> time_chrono = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
-    std::cout << "Elapsed time: " << time_chrono.count() << std::endl;
+    //std::cout << "Elapsed time: " << time_chrono.count() << std::endl;
 
     return 0;
 }
