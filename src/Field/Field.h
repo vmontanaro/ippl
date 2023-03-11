@@ -25,7 +25,7 @@
 namespace ippl {
 
     template <typename T, unsigned Dim,
-              class M=UniformCartesian<T, Dim>,
+              class M=UniformCartesian<typename detail::ExtractScalar<T>::type, Dim>,
               class C=typename M::DefaultCentering >
     class Field : public BareField<T, Dim>
     {

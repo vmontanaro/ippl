@@ -36,6 +36,7 @@ namespace ippl {
     class Vector : public detail::Expression<Vector<T, Dim>, sizeof(T) * Dim> {
     public:
         typedef T value_type;
+        typedef detail::ExtractScalarType<T> scalar_type;
         static constexpr unsigned dim = Dim;
 
         KOKKOS_FUNCTION

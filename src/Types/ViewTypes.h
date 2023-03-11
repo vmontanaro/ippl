@@ -19,6 +19,7 @@
 #define IPPL_VIEW_TYPES_H
 
 #include <Kokkos_Core.hpp>
+#include <type_traits>
 
 namespace ippl {
     /**
@@ -36,6 +37,28 @@ namespace ippl {
          */
         template <typename T, unsigned Dim, class... Properties>
         struct ViewType { };
+
+        /*!
+         * Extracts the scalar type underlying a Field using metaprogramming features from
+         * the standard library. For a Field<T> with scalar T, defines a type alias for T.
+         * For a Field<Vector<T>>, defines a type alias for the inner type T.
+         * Reference: https://stackoverflow.com/questions/42678338/using-enable-if-with-struct-specialization
+         * @tparam T the template parameter in the Field
+         * @tparam void unused dummy parameter for metaprogramming
+         */
+        template <typename, typename=void> struct ExtractScalar;
+        template <typename T>
+        struct ExtractScalar<T, typename std::enable_if_t<std::is_arithmetic_v<T>>> {
+            typedef T type;
+        };
+
+        template <typename T>
+        struct ExtractScalar<T, typename std::enable_if_t<std::is_compound_v<T>>> {
+            typedef typename T::scalar_type type;
+        };
+
+        template <typename T>
+        using ExtractScalarType = typename ExtractScalar<T>::type;
 
         /*!
          * Specialized view type for one dimension.
