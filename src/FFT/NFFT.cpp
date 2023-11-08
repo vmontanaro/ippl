@@ -56,7 +56,24 @@ template <typename T, class... Properties>
     }
 
 int main(int argc, char **argv){
+    int M = 1e7;                                   // number of nonuniform points
+    View<double, M> x;
+    View<Kokkos::complex<double>, M > c;
+    Kokkos::complex<double> I = Kokkos::complex<double>(0.0,1.0);  // the imaginary unit
 
+    Kokkos::Random_XorShift64_Pool<> random_pool(12345);
+
+     using policy_type = Kokkos::RangePolicy<execution_space>;
+        Kokkos::parallel_for(
+            "ParticleAttrib::scatter", policy_type(0, M),
+            KOKKOS_CLASS_LAMBDA(const size_t idx) {
+                auto generator = random_pool.get_state();
+
+                x(j) = Kokkos::numbers::pi_v<double>*(2*(generator.drand(0., 1.)/RAND_MAX)-1); // uniform random in [-pi,pi)
+                c(j) = 2*((double)rand()/RAND_MAX)-1 + I*(2*((generator.drand(0., 1.)/RAND_MAX)-1);
+
+                random_pool.free_state(generator);
+            });
 
 // 1. Compute kernels & rescale them
 //      -Find nearest gridpoint & scatter to field, evaluate phi on field gridpoint   
@@ -65,12 +82,6 @@ int main(int argc, char **argv){
 // 2. Convolution FFT{FFT^(-1){cj * phi}}
 
 // 3. Truncate to the central N frequencies and compute f_k = p_k b_k, p_k = 2/(wφ̂(αk))
-
-
-
-
-
-
 
 
 
