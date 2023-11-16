@@ -4,6 +4,7 @@ set (_SRCS
 set (_HDRS
     FFT.hpp
     FFT.h
+    NFFT.cpp
     )
 
 include_directories (

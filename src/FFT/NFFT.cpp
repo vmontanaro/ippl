@@ -3,7 +3,7 @@
 
 #include "FFT.h"
 
-
+/*
 template <typename T, class... Properties>
     template <typename Field, class PT>
     void ParticleAttrib<T, Properties...>::spread(
@@ -53,12 +53,12 @@ template <typename T, class... Properties>
         IpplTimings::startTimer(accumulateHaloTimer);
         f.accumulateHalo();
         IpplTimings::stopTimer(accumulateHaloTimer);
-    }
+    }*/
 
 int main(int argc, char **argv){
     int M = 1e7;                                   // number of nonuniform points
-    View<double, M> x;
-    View<Kokkos::complex<double>, M > c;
+    View<double, M> x;              // Non uniform points 
+    View<Kokkos::complex<double>, M > c;        // complex strenghts
     Kokkos::complex<double> I = Kokkos::complex<double>(0.0,1.0);  // the imaginary unit
 
     Kokkos::Random_XorShift64_Pool<> random_pool(12345);
