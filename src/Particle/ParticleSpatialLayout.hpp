@@ -66,6 +66,7 @@ namespace ippl {
     void ParticleSpatialLayout<T, Dim, Mesh, Properties...>::updateLayout(FieldLayout<Dim>& fl,
                                                                           Mesh& mesh) {
         rlayout_m.changeDomain(fl, mesh);
+        flayout_m = fl;
     }
 
     template <typename T, unsigned Dim, class Mesh, typename... Properties>
